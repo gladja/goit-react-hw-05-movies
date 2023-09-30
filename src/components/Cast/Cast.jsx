@@ -5,20 +5,33 @@ const Cast = ({ movieId }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    const getMovieDetails = async () => {
-      const data = await getFilms(`movie/${movieId}/credits`);
-      // console.log(data);
+    const getMovieCast = async () => {
+      const data = await getFilms(`/movie/${movieId}/credits`);
       setData(data);
     };
-    getMovieDetails();
+    getMovieCast();
   }, [movieId]);
 
-  console.log(data);
-
+  // console.log(data);
   return (
     <>
       <div>Additional information</div>
-      Cast
+      <ul>
+        {data &&
+          data.cast.map(({ id, character, name, profile_path }) => (
+            <li key={id}>
+              <div>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${profile_path}`}
+                  alt=""
+                  width={'100px'}
+                />
+                <h3>{name}</h3>
+                <p>Character: {character}</p>
+              </div>
+            </li>
+          ))}
+      </ul>
     </>
   );
 };
