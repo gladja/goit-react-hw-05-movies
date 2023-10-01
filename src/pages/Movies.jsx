@@ -1,81 +1,80 @@
 import { useEffect, useState } from 'react';
 import getFilms from '../service/api-request-film';
-import { Link, Outlet, useParams, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 
 const Movies = () => {
   const [data, setData] = useState(null);
   const [search, setSearch] = useState('');
-  const [query, setQuery] = useState('');
 
-  const { movieId } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams()
+  // const { movieId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams({ query: '' });
+  const searchQuery = searchParams.get('query'); // ?? ''
+  const location = useLocation();
+
+  const [query, setQuery] = useState(searchQuery);
 
   useEffect(() => {
-
     const getQueryFilms = async () => {
-      // setLoading(true);
-      // try {
       const data = await getFilms('search/movie', query);
       setData(data);
-      console.log(data);
-      // }
-      // catch (error) {
-      //   console.log('error');
-      // } finally {
-      // setLoading(false);
-      // }
     };
 
     getQueryFilms();
   }, [query]);
 
-
   const handleSearch = e => {
     const search = e.currentTarget.value.trim().toLowerCase();
     setSearch(search);
+    setSearchParams({ query: `${search}` });
   };
 
   const handleSubmit = e => {
-    e.preventDefault()
-    setQuery(search)
-    setSearch('');
-    setSearchParams({query: `${query}`})
-  }
-    console.log(searchParams.get('query'));
-
+    e.preventDefault();
+    setQuery(search);
+    // setSearch('');
+  };
+  // console.log(data);
+  // console.log(searchParams.get('query'));
+  // console.log(location);
 
   return (
     <>
-      <div>Movies!!!</div>
       <form onSubmit={handleSubmit}>
         <input
           type={'text'}
           name={'search'}
-          value={search}
-          autoComplete='off'
+          value={searchQuery}
+          // value={search}
+          autoComplete="off"
           autoFocus
-          placeholder='Search movies'
+          placeholder="Search movies"
           onChange={handleSearch}
         />
         <button
           type={'submit'}
+          // onClick={() => setSearchParams({ query: `${search}` })}
         >
-          {/*<Link to={`/movies?query=${query}`}>*/}
           Search
-          {/*</Link>*/}
         </button>
       </form>
 
-
       <ul>
-        {data && data.results.map(({title, id}) => (
-          <li key={id}>
-            <Link to={`/movies/${id}`}>{title}</Link>
-          </li>
-
-        ))}
+        {data &&
+          data.results.map(({ title, id }) => (
+            <li key={id}>
+              <Link to={`/movies/${id}`} state={{ from: location }}>
+                {title}
+              </Link>
+            </li>
+          ))}
       </ul>
-      <Outlet/>
+      <Outlet />
     </>
   );
 };
