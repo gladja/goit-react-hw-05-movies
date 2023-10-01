@@ -19,12 +19,12 @@ axios.defaults.headers = {
 //   return data;
 // };
 
-const getFilms = async url => {
+const getFilms = async (url, query) => {
   try {
-    const { data } = await axios({ url });
+    const { data } = await axios({ url, params: { query: query } });
     return data;
   } catch (error) {
-    // console.log(error.message);
+    // console.log(error);
     toast.error('Sorry ERROR. Please try again.');
   } finally {
     // setLoading(false);

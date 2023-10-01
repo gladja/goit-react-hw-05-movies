@@ -1,4 +1,4 @@
-import { NavLink, useParams, Outlet } from 'react-router-dom';
+import { NavLink, useParams, Outlet, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import getFilms from '../../service/api-request-film';
 
@@ -9,22 +9,20 @@ const MovieDetails = ({ setMovieId }) => {
   useEffect(() => {
     const getMovieDetails = async () => {
       const data = await getFilms(`movie/${movieId}`);
-      // console.log(data);
       setData(data);
       setMovieId(movieId);
     };
     getMovieDetails();
   }, [movieId, setMovieId]);
 
-  // console.log(data);
-
   return (
     <>
+      <button><Link to={'/'}>Go back</Link></button>
       {data && (
         <>
           <img
             src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-            alt=""
+            alt=''
             width={'150px'}
           />
           <h2>{data.original_title}</h2>
@@ -37,10 +35,18 @@ const MovieDetails = ({ setMovieId }) => {
           ))}
         </>
       )}
+      <ul>
+        <li>
+          <NavLink to={'cast'}>Cast</NavLink>
+          {/*<NavLink to={`/movies/${movieId}/cast`}>Cast</NavLink>*/}
+        </li>
+        <li>
+          <NavLink to={'reviews'}>Reviews</NavLink>
+          {/*<NavLink to={`/movies/${movieId}/reviews`}>Reviews</NavLink>*/}
+        </li>
 
-      <NavLink to={`/movies/${movieId}/credits`}>Cast</NavLink>
-
-      <Outlet />
+      </ul>
+      <Outlet/>
     </>
   );
 };

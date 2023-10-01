@@ -7,6 +7,8 @@ const Cast = ({ movieId }) => {
   useEffect(() => {
     const getMovieCast = async () => {
       const data = await getFilms(`/movie/${movieId}/credits`);
+      // if (!data) return
+      console.log(data);
       setData(data);
     };
     getMovieCast();

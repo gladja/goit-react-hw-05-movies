@@ -7,6 +7,7 @@ import Movies from '../pages/Movies';
 import MovieDetails from './MovieDetails/MovieDetails';
 import Cast from './Cast/Cast';
 import { useState } from 'react';
+import Reviews from './Reviews/Reviews';
 
 export const App = () => {
   const [movieId, setMovieId] = useState();
@@ -26,18 +27,19 @@ export const App = () => {
         </nav>
 
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route
-            path="/movies/:movieId/"
-            element={<MovieDetails setMovieId={setMovieId} />}
+          <Route path='/' element={<Home />} />
+          <Route path='/movies' element={<Movies />} />
+          {/*<Route path='/movies?query=:query' element={<Movies />} />*/}
+          <Route path='/movies/:movieId/'
+                 element={<MovieDetails setMovieId={setMovieId} />}
           >
-            <Route path="credits" element={<Cast movieId={movieId} />} />
+            <Route path='cast' element={<Cast movieId={movieId} />} />
+            <Route path='reviews' element={<Reviews movieId={movieId} />} />
           </Route>
         </Routes>
       </div>
 
-      <ToastContainer autoClose={3000} theme="colored" position="top-center" />
+      <ToastContainer autoClose={3000} theme='colored' position='top-center' />
     </>
   );
 };
