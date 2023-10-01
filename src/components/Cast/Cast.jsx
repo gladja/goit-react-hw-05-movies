@@ -4,7 +4,6 @@ import { Img, Item, List } from './Cast.styled';
 import { Loader } from '../Loader/Loader';
 import { toast } from 'react-toastify';
 
-
 const Cast = ({ movieId }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -14,7 +13,6 @@ const Cast = ({ movieId }) => {
       setLoading(true);
       try {
       const data = await getFilms(`/movie/${movieId}/credits`);
-      console.log(data);
       setData(data);
       } catch (error) {
         toast.error('Sorry ERROR. Please try again.');
@@ -38,7 +36,7 @@ const Cast = ({ movieId }) => {
                 <Img>
                   <img
                     src={`https://image.tmdb.org/t/p/w500${profile_path}`}
-                    alt=''
+                    alt={name}
                     width={'150'}
                     height={'225'}
                   />

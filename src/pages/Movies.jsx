@@ -4,11 +4,13 @@ import { toast } from 'react-toastify';
 import getFilms from '../service/api-request-film';
 import MoviesList from '../components/MoviesList/MoviesList';
 import SearchForm from '../components/SearchForm/SearchForm';
+import { Loader } from '../components/Loader/Loader';
+
 
 const Movies = () => {
   const [data, setData] = useState(null);
   const [search, setSearch] = useState('');
-
+  const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams({ query: '' });
   const searchQuery = searchParams.get('query'); // ?? ''
   const location = useLocation();
@@ -17,8 +19,15 @@ const Movies = () => {
 
   useEffect(() => {
     const getQueryFilms = async () => {
+      setLoading(true);
+      try {
       const data = await getFilms('search/movie', query);
       setData(data);
+      } catch (error) {
+        toast.error('Sorry ERROR. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     };
 
     getQueryFilms();
@@ -42,9 +51,6 @@ const Movies = () => {
     }
     setQuery(search);
   };
-  // console.log(data?.results);
-  // console.log(searchParams.get('query'));
-  // console.log(location);
 
   return (
     <>
@@ -54,11 +60,11 @@ const Movies = () => {
           searchQuery={searchQuery}
           handleSearch={handleSearch}
         />
-
         <MoviesList
           data={data?.results}
           location={location}
         />
+        <Loader loading={loading} />
         <Outlet />
       </main>
     </>

@@ -5,30 +5,41 @@ import {
   Link,
   useLocation,
 } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import getFilms from '../../service/api-request-film';
 import { BtnBack, Item, List, Title, Wrap, WrapText, ListGenre } from './MovieDetails.styled';
+import { Loader } from '../Loader/Loader';
+import { toast } from 'react-toastify';
 
 const MovieDetails = ({ setMovieId }) => {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
   const location = useLocation();
   const backLinkLocal = useRef(location.state?.from ?? '/movies');
 
-  console.log(backLinkLocal.current);
+  // console.log(backLinkLocal.current);
   // console.log(location);
 
   useEffect(() => {
     const getMovieDetails = async () => {
-      const data = await getFilms(`movie/${movieId}`);
-      setData(data);
-      setMovieId(movieId);
+      setLoading(true);
+      try {
+        const data = await getFilms(`movie/${movieId}`);
+        setData(data);
+        setMovieId(movieId);
+      } catch (error) {
+        toast.error('Sorry ERROR. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     };
     getMovieDetails();
   }, [movieId, setMovieId]);
 
   return (
     <main>
+      <Loader loading={loading} />
       {data && (
         <Wrap>
           <img
@@ -64,7 +75,9 @@ const MovieDetails = ({ setMovieId }) => {
           <NavLink to={'reviews'}>Reviews</NavLink>
         </Item>
       </List>
-      <Outlet />
+      <Suspense fallback={''}>
+        <Outlet />
+      </Suspense>
     </main>
   );
 };

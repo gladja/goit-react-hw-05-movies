@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import getFilms from '../service/api-request-film';
 import MoviesList from '../components/MoviesList/MoviesList';
 import { Loader } from '../components/Loader/Loader';
-
+import { toast } from 'react-toastify';
 
 const Home = () => {
   const [data, setData] = useState(null);
@@ -17,13 +17,12 @@ const Home = () => {
         const data = await getFilms('trending/movie/day');
         setData(data.results);
       } catch (error) {
-        // console.log('error');
+        toast.error('Sorry ERROR. Please try again.');
       } finally {
         setLoading(false);
       }
     };
     getDayFilms();
-    // setLoading(false);
   }, []);
 
   return (

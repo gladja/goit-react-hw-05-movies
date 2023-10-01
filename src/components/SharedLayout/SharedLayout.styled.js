@@ -12,6 +12,17 @@ display: flex;
 `
 export const Item = styled.li`
   padding: 10px;
+
+  &> .active {
+    padding-bottom: 2px;
+    border-bottom: 2px solid black;
+    transition: border-bottom .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+
+  &> .active:hover {
+    border-bottom: 2px solid white;
+  }
+
 `
 export const Text = styled.span`
   font-size: 20px;

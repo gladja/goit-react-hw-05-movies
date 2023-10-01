@@ -13,20 +13,33 @@ export const List = styled.ul`
 display: flex;
   gap: 20px;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 `
 
 export const Item = styled.li`
-  //padding: 5px 10px;
   font-size: 20px;
   font-weight: bold;
   text-transform: uppercase;
-  //border: 1px solid gray;
-  //border-radius: 10px;
-  &> a {
 
-  color: black;
+  & > a {
+    color: black;
   }
+
+  & > .active {
+    color: #cc0000;
+    padding-bottom: 2px;
+    border-bottom: 2px solid black;
+    transition: color .15s ease-in-out, box-shadow .15s ease-in-out;
+  }
+
+  & > .active:hover {
+    border-bottom: 2px solid dimgrey;
+  }
+
+  & > a:hover {
+    color: dimgrey;
+  }
+
 `
 
 export const BtnBack = styled.span`

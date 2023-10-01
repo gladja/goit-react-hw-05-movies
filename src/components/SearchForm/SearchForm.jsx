@@ -1,8 +1,10 @@
+import { Btn, Form, Input } from './SearchForm.styled';
+
 const SearchForm = ({handleSubmit, searchQuery, handleSearch}) => {
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input
+      <Form onSubmit={handleSubmit}>
+        <Input
           type='text'
           name='search'
           value={searchQuery}
@@ -11,12 +13,12 @@ const SearchForm = ({handleSubmit, searchQuery, handleSearch}) => {
           placeholder='Search movies'
           onChange={handleSearch}
         />
-        <button
+        <Btn
           type={'submit'}
         >
           Search
-        </button>
-      </form>
+        </Btn>
+      </Form>
     </>
   )
 }

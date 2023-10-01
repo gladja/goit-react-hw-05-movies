@@ -2,13 +2,15 @@ import { Route, Routes } from 'react-router-dom';
 import { SharedLayout } from './SharedLayout/SharedLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { lazy, useState } from 'react';
 
-import Home from '../pages/Home';
-import Movies from '../pages/Movies';
-import MovieDetails from './MovieDetails/MovieDetails';
-import Cast from './Cast/Cast';
-import { useState } from 'react';
-import Reviews from './Reviews/Reviews';
+//Lazy
+const Home = lazy(() => import('../pages/Home'));
+const Movies = lazy(() => import('../pages/Movies'));
+const MovieDetails = lazy(() => import('../components/MovieDetails/MovieDetails'));
+const Cast = lazy(() => import('../components/Cast/Cast'));
+const Reviews = lazy(() => import('../components/Reviews/Reviews'));
+
 
 export const App = () => {
   const [movieId, setMovieId] = useState();

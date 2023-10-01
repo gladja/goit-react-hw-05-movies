@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import getFilms from '../../service/api-request-film';
-import { List } from './Reviews.styled';
+import { Item, List, Text, Title } from './Reviews.styled';
 import { Loader } from '../Loader/Loader';
 import { toast } from 'react-toastify';
 
@@ -30,10 +30,10 @@ const Reviews = ({ movieId }) => {
         <p>We don't have any reviews for this movie.</p>}
       <List>
         {data && data.results.map(({ id, author, content }) => (
-          <li key={id}>
-            <h3>Author: {author}</h3>
-            <p>{content}</p>
-          </li>
+          <Item key={id}>
+            <Title>Author: {author}</Title>
+            <Text>{content}</Text>
+          </Item>
         ))}
       </List>
     </>

@@ -14,16 +14,16 @@ export const Item = styled.li`
   border-radius: 10px;
   font-weight: bold;
   letter-spacing: 0.02em;
-
-  //&:nth-child(2n) {
-  //  background: whitesmoke;
-  //}
+  border: 2px solid darkgray;
 
   &> a {
     color: white;
+    width: 100%;
+    padding: 6px 200px 6px 0;
   }
   &:hover {
     background: white;
+    border: 2px solid darkgray;
   }
 
   &:hover > a{
