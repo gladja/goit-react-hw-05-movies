@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 const API_TOKEN =
   'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3ZjcyNWU5Mzg0MmIyYjgw' +
@@ -13,21 +13,14 @@ axios.defaults.headers = {
   Authorization: `Bearer ${API_TOKEN}`,
 };
 
-// const getFilms = async (url) => {
-//   const { data } = await axios({ url });
-//   // console.log(data.results);
-//   return data;
-// };
-
 const getFilms = async (url, query) => {
   try {
     const { data } = await axios({ url, params: { query: query } });
     return data;
   } catch (error) {
     // console.log(error);
-    toast.error('Sorry ERROR. Please try again.');
+    // toast.error('Sorry ERROR. Please try again.');
   } finally {
-    // setLoading(false);
   }
 };
 

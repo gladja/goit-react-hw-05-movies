@@ -1,4 +1,5 @@
-import { NavLink, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import { SharedLayout } from './SharedLayout/SharedLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,32 +15,21 @@ export const App = () => {
 
   return (
     <>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <NavLink to={'/'}>Home</NavLink>
-            </li>
-            <li>
-              <NavLink to={'/movies'}>Movies</NavLink>
-            </li>
-          </ul>
-        </nav>
+      <Routes>
+        <Route path='/' element={<SharedLayout />}>
+            <Route index element={<Home />} />
+            <Route path='/movies' element={<Movies />} />
+            <Route
+              path='/movies/:movieId/'
+              element={<MovieDetails setMovieId={setMovieId} />}
+            >
+              <Route path='cast' element={<Cast movieId={movieId} />} />
+              <Route path='reviews' element={<Reviews movieId={movieId} />} />
+            </Route>
+        </Route>
+      </Routes>
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route
-            path="/movies/:movieId/"
-            element={<MovieDetails setMovieId={setMovieId} />}
-          >
-            <Route path="cast" element={<Cast movieId={movieId} />} />
-            <Route path="reviews" element={<Reviews movieId={movieId} />} />
-          </Route>
-        </Routes>
-      </div>
-
-      <ToastContainer autoClose={3000} theme="colored" position="top-center" />
+      <ToastContainer autoClose={3000} theme='colored' position='top-center' />
     </>
   );
 };

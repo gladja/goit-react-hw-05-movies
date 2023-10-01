@@ -1,15 +1,26 @@
 import { useEffect, useState } from 'react';
 import getFilms from '../../service/api-request-film';
+import { Img, Item, List } from './Cast.styled';
+import { Loader } from '../Loader/Loader';
+import { toast } from 'react-toastify';
+
 
 const Cast = ({ movieId }) => {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getMovieCast = async () => {
+      setLoading(true);
+      try {
       const data = await getFilms(`/movie/${movieId}/credits`);
-      // if (!data) return
       console.log(data);
       setData(data);
+      } catch (error) {
+        toast.error('Sorry ERROR. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     };
     getMovieCast();
   }, [movieId]);
@@ -17,23 +28,27 @@ const Cast = ({ movieId }) => {
   // console.log(data);
   return (
     <>
-      <div>Additional information</div>
-      <ul>
+      <h2>Additional information</h2>
+      <Loader loading={loading} />
+      <List>
         {data &&
           data.cast.map(({ id, character, name, profile_path }) => (
-            <li key={id}>
+            <Item key={id}>
               <div>
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${profile_path}`}
-                  alt=""
-                  width={'100px'}
-                />
+                <Img>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${profile_path}`}
+                    alt=''
+                    width={'150'}
+                    height={'225'}
+                  />
+                </Img>
                 <h3>{name}</h3>
                 <p>Character: {character}</p>
               </div>
-            </li>
+            </Item>
           ))}
-      </ul>
+      </List>
     </>
   );
 };

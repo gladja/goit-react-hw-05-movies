@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import getFilms from '../../service/api-request-film';
+import { BtnBack, Item, List, Title, Wrap, WrapText, ListGenre } from './MovieDetails.styled';
 
 const MovieDetails = ({ setMovieId }) => {
   const [data, setData] = useState(null);
@@ -27,39 +28,44 @@ const MovieDetails = ({ setMovieId }) => {
   }, [movieId, setMovieId]);
 
   return (
-    <>
-      <button>
-        <Link to={backLinkLocal.current}>Go back</Link>
-      </button>
+    <main>
       {data && (
-        <>
+        <Wrap>
           <img
             src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-            alt=""
-            width={'150px'}
+            alt=''
+            width={'200px'}
           />
-          <h2>{data.original_title}</h2>
-          <p>User Score: {Math.floor(data.vote_average * 10)}%</p>
-          <p>Overview</p>
-          <p>{data.overview}</p>
-          <p>Genres</p>
-          {data.genres.map(({ name, id }) => (
-            <div key={id}>{name}</div>
-          ))}
-        </>
+
+          <WrapText>
+            <h2>{data.original_title}</h2>
+            <Title>User Score: <span>{Math.floor(data.vote_average * 10)}%</span></Title>
+            <Title>Overview</Title>
+            <p>{data.overview}</p>
+            <Title>Genres</Title>
+            <ListGenre>
+              {data.genres.map(({ name, id }) => (
+                <li key={id}>{name}</li>
+              ))}
+            </ListGenre>
+          </WrapText>
+        </Wrap>
       )}
-      <ul>
-        <li>
+      <List>
+        <Item>
+          <BtnBack>
+            <Link to={backLinkLocal.current}>Go back</Link>
+          </BtnBack>
+        </Item>
+        <Item>
           <NavLink to={'cast'}>Cast</NavLink>
-          {/* <NavLink to={`${location.pathname.from}`}>Cast</NavLink> */}
-        </li>
-        <li>
+        </Item>
+        <Item>
           <NavLink to={'reviews'}>Reviews</NavLink>
-          {/* <NavLink to={`/movies/${movieId}/reviews`}>Reviews</NavLink> */}
-        </li>
-      </ul>
+        </Item>
+      </List>
       <Outlet />
-    </>
+    </main>
   );
 };
 

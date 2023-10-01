@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
+import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import getFilms from '../service/api-request-film';
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import MoviesList from '../components/MoviesList/MoviesList';
+import SearchForm from '../components/SearchForm/SearchForm';
 
 const Movies = () => {
   const [data, setData] = useState(null);
   const [search, setSearch] = useState('');
 
-  // const { movieId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams({ query: '' });
   const searchQuery = searchParams.get('query'); // ?? ''
   const location = useLocation();
@@ -36,45 +32,35 @@ const Movies = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+
+    if (search === '') {
+      return toast.warn('Sorry, type search query. Please try again.');
+    }
+
+    if (query === search) {
+      return toast.warn('Sorry! double search query. Please try again.');
+    }
     setQuery(search);
-    // setSearch('');
   };
-  // console.log(data);
+  // console.log(data?.results);
   // console.log(searchParams.get('query'));
   // console.log(location);
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input
-          type={'text'}
-          name={'search'}
-          value={searchQuery}
-          // value={search}
-          autoComplete="off"
-          autoFocus
-          placeholder="Search movies"
-          onChange={handleSearch}
+      <main>
+        <SearchForm
+          handleSubmit={handleSubmit}
+          searchQuery={searchQuery}
+          handleSearch={handleSearch}
         />
-        <button
-          type={'submit'}
-          // onClick={() => setSearchParams({ query: `${search}` })}
-        >
-          Search
-        </button>
-      </form>
 
-      <ul>
-        {data &&
-          data.results.map(({ title, id }) => (
-            <li key={id}>
-              <Link to={`/movies/${id}`} state={{ from: location }}>
-                {title}
-              </Link>
-            </li>
-          ))}
-      </ul>
-      <Outlet />
+        <MoviesList
+          data={data?.results}
+          location={location}
+        />
+        <Outlet />
+      </main>
     </>
   );
 };
