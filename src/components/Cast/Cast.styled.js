@@ -18,13 +18,11 @@ export const Item = styled.li`
   }
 `
 export const Img = styled.li`
+  height: 225px;
   border-radius: 15px;
   overflow: hidden;
   margin-bottom: 10px;
-  background: lightgray;
-
-
-  //&> img {
-  //background-image: url("../../img/person.webp");
-  //}
+  border: 1px solid lightgray;
+  display: flex;
+  align-items: center;
 `

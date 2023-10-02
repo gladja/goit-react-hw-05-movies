@@ -4,6 +4,7 @@ import { Img, Item, List } from './Cast.styled';
 import { Loader } from '../Loader/Loader';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
+import img from '../../img/person.jpeg';
 
 const Cast = () => {
   const [data, setData] = useState(null);
@@ -14,8 +15,19 @@ const Cast = () => {
     const getMovieCast = async () => {
       setLoading(true);
       try {
-      const data = await getFilms(`/movie/${movieId}/credits`);
-      setData(data);
+        const data = await getFilms(`/movie/${movieId}/credits`);
+
+        const makeData = data.cast.map(({ id, character, name, profile_path }) => (
+             {
+              id,
+              character,
+              name,
+              profile_path: profile_path ? `https://image.tmdb.org/t/p/w500${profile_path}` : img,
+            }
+          ));
+
+
+        setData(makeData);
       } catch (error) {
         toast.error('Sorry ERROR. Please try again.');
       } finally {
@@ -25,22 +37,21 @@ const Cast = () => {
     getMovieCast();
   }, [movieId]);
 
-  // console.log(data);
   return (
     <>
-      {(data?.cast.length === 0) &&
+      {data && (data.length === 0) &&
         <p>We don't have any additional information for this movie.</p>}
 
-      {(data?.cast.length > 0) && <h2>Additional information</h2>}
+      {data && (data.length > 0) && <h2>Additional information</h2>}
       <Loader loading={loading} />
       <List>
         {data &&
-          data.cast.map(({ id, character, name, profile_path }) => (
+          data.map(({ id, character, name, profile_path }) => (
             <Item key={id}>
               <div>
                 <Img>
                   <img
-                    src={`https://image.tmdb.org/t/p/w500${profile_path}`}
+                    src={profile_path}
                     alt={name}
                     width={'150'}
                     height={'225'}

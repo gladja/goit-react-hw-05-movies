@@ -27,6 +27,7 @@ const Reviews = () => {
 
   return (
     <>
+      {(data?.results.length > 0) && <h2>Additional information</h2>}
       <Loader loading={loading} />
       {(data?.results.length === 0) &&
         <p>We don't have any reviews for this movie.</p>}
