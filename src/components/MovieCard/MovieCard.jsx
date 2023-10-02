@@ -7,11 +7,11 @@ import {
 } from 'react-router-dom';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import getFilms from '../../service/api-request-film';
-import { BtnBack, Item, List, Title, Wrap, WrapText, ListGenre } from './MovieDetails.styled';
-import { Loader } from '../Loader/Loader';
+import { BtnBack, Item, List, Title, Wrap, WrapText, ListGenre } from '../../components/MovieCard/MovieCard.styled';
+import { Loader } from '../../components/Loader/Loader';
 import { toast } from 'react-toastify';
 
-const MovieDetails = () => {
+const MovieCard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
@@ -36,8 +36,8 @@ const MovieDetails = () => {
     getMovieDetails();
   }, [movieId]);
 
-  return (
-    <main>
+  return(
+    <>
       <Loader loading={loading} />
       {data && (
         <Wrap>
@@ -77,8 +77,8 @@ const MovieDetails = () => {
       <Suspense fallback={''}>
         <Outlet />
       </Suspense>
-    </main>
-  );
-};
+    </>
+  )
+}
 
-export default MovieDetails;
+export default MovieCard;
