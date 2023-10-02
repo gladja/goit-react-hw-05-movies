@@ -3,10 +3,12 @@ import getFilms from '../../service/api-request-film';
 import { Item, List, Text, Title } from './Reviews.styled';
 import { Loader } from '../Loader/Loader';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 
-const Reviews = ({ movieId }) => {
+const Reviews = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { movieId } = useParams();
 
   useEffect(() => {
     const getMovieReviews = async () => {

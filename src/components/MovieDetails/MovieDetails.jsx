@@ -11,7 +11,7 @@ import { BtnBack, Item, List, Title, Wrap, WrapText, ListGenre } from './MovieDe
 import { Loader } from '../Loader/Loader';
 import { toast } from 'react-toastify';
 
-const MovieDetails = ({ setMovieId }) => {
+const MovieDetails = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
@@ -27,7 +27,6 @@ const MovieDetails = ({ setMovieId }) => {
       try {
         const data = await getFilms(`movie/${movieId}`);
         setData(data);
-        setMovieId(movieId);
       } catch (error) {
         toast.error('Sorry ERROR. Please try again.');
       } finally {
@@ -35,7 +34,7 @@ const MovieDetails = ({ setMovieId }) => {
       }
     };
     getMovieDetails();
-  }, [movieId, setMovieId]);
+  }, [movieId]);
 
   return (
     <main>
